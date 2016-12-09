@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KUP.Authentication.Data", "KUP.Authentication.Data\KUP.Authentication.Data.xproj", "{D3D05C9E-9008-4BDA-9C05-91A5DA3DE14E}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KUP.Authentication.Business", "KUP.Authentication.Business\KUP.Authentication.Business.xproj", "{CD63485F-6440-4909-A2DB-73FE2299F1A6}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KUP.Authentication.Api", "KUP.Authentication.Api\KUP.Authentication.Api.xproj", "{2B710632-3203-47BB-AE36-6BD7563E0215}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3D05C9E-9008-4BDA-9C05-91A5DA3DE14E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D05C9E-9008-4BDA-9C05-91A5DA3DE14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D05C9E-9008-4BDA-9C05-91A5DA3DE14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D05C9E-9008-4BDA-9C05-91A5DA3DE14E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD63485F-6440-4909-A2DB-73FE2299F1A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD63485F-6440-4909-A2DB-73FE2299F1A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD63485F-6440-4909-A2DB-73FE2299F1A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD63485F-6440-4909-A2DB-73FE2299F1A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B710632-3203-47BB-AE36-6BD7563E0215}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B710632-3203-47BB-AE36-6BD7563E0215}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B710632-3203-47BB-AE36-6BD7563E0215}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B710632-3203-47BB-AE36-6BD7563E0215}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
