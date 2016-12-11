@@ -14,5 +14,10 @@ namespace KUP.Authentication.Data.Repositories.Implementation
         {
             _context = context;
         }
+
+        public PortalUser GetPortalUserByUserName(string userName)
+        {
+            return _context.PortalUser.Where(pu => pu.Username == userName).SingleOrDefault();
+        }
     }
 }
