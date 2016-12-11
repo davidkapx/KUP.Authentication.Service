@@ -1,12 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.Swagger.Model;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using KUP.Authentication.Data.Models;
+using KUP.Authentication.Data.Repositories.Implementation;
+using KUP.Authentication.Data.Repositories.Definition;
+using KUP.Authentication.Business.Components.Definition;
+using KUP.Authentication.Business.Components.Implementation;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Diagnostics;
+using KUP.Authentication.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace KUP.Authentication.Api
 {
@@ -22,22 +33,104 @@ namespace KUP.Authentication.Api
             Configuration = builder.Build();
         }
 
+        public IContainer ApplicationContainer { get; private set; }
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", corsBuilder => corsBuilder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             // Add framework services.
+            services.AddCors();
             services.AddMvc();
+            services.AddDbContext<UniversityPortal_KVUContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UniversityPortal_KVU_Database")));
+            services.AddSwaggerGen();
+
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "KUP Authentication Service",
+                    Description = "Kaplan University Portal Authentication Service",
+                    TermsOfService = "None",
+                    Contact = new Contact { Name = "Ralph Blaise", Email = "rblaise@kaplan.edu", Url = "http://twitter.com/topdawgevh" },
+                    License = new License { Name = "Use under LICX", Url = "http://url.com" }
+                });
+
+                //Determine base path for the application.
+                //var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = GetXmlCommentsPath();
+                //Set the comments path for the swagger json and ui.
+                options.IncludeXmlComments(xmlPath);
+            });
+
+            var builder = new ContainerBuilder();
+            builder.RegisterType<PortalUserRepository>().As<IPortalUserRepository>();
+            builder.RegisterType<AuthenticationComponent>().As<IAuthenticationComponent>();
+
+            builder.Populate(services);
+            this.ApplicationContainer = builder.Build();
+
+            // Create the IServiceProvider based on the container.
+            return new AutofacServiceProvider(this.ApplicationContainer);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime appLifetime)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUi();
+            app.UseCors("CorsPolicy");
+
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    context.Response.StatusCode = 500; // or another Status accordingly to Exception Type
+                    context.Response.ContentType = "application/json";
+
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+                    if (error != null)
+                    {
+                        var ex = error.Error;
+
+                        await context.Response.WriteAsync(new ErrorDto()
+                        {
+                            Code = 500,
+                            Message = ex.Message // or your custom message
+                            // other custom data
+                        }.ToString(), Encoding.UTF8);
+                    }
+                });
+            });
+
+
             app.UseMvc();
+
+            appLifetime.ApplicationStopped.Register(() => this.ApplicationContainer.Dispose());
         }
+
+        #region "helpers"
+        private string GetXmlCommentsPath()
+        {
+            var app = PlatformServices.Default.Application;
+            return System.IO.Path.Combine(app.ApplicationBasePath, "KUP.Authentication.Api.xml");
+        }
+        #endregion
     }
 }
