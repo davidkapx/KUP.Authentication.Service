@@ -6,6 +6,10 @@ namespace KUP.Authentication.Data.Models
 {
     public partial class UniversityPortal_KVUContext : DbContext
     {
+        public UniversityPortal_KVUContext(DbContextOptions<UniversityPortal_KVUContext> options)
+            : base(options)
+        { }
+
         public virtual DbSet<AccountProvisioningProgramVersion> AccountProvisioningProgramVersion { get; set; }
         public virtual DbSet<ActivityStreamSsislogs> ActivityStreamSsislogs { get; set; }
         public virtual DbSet<AdAuthenticationDomain> AdAuthenticationDomain { get; set; }
@@ -195,8 +199,6 @@ namespace KUP.Authentication.Data.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseSqlServer(@"Server=mssql-dev-lms.charlie.kaplaninc.com\DEVLMS;Database=UniversityPortal_KVU;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

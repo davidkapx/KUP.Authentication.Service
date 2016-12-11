@@ -21,7 +21,7 @@ namespace KUP.Authentication.Business.Components
                                     ? string.Empty
                                     : portalUser.AdAuthenticationDomain.DomainName,
                 ADUserName = portalUser.Adusername,
-                AuthenticationType = (AuthenticationType)portalUser.AuthenticationType.AuthenticationTypeId,
+                //AuthenticationType = (AuthenticationType)portalUser.AuthenticationType.AuthenticationTypeId,
                 IsLocked = portalUser.IsLockedOut,
                 LastLogin = portalUser.LastLoginDate,
                 Password = portalUser.Password,
