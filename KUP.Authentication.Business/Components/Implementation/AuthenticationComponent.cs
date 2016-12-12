@@ -26,9 +26,9 @@ namespace KUP.Authentication.Business.Components.Implementation
             _jwtTokenComponent = jwtTokenComponent;
         }
 
-        public AuthenticationResult Authenticate(string userName, string passWord)
+        public AuthenticateResult Authenticate(string userName, string passWord)
         {
-            AuthenticationResult result = AuthenticationResult.LogonFailure;
+            AuthenticateResult authResult = new AuthenticateResult();
 
             PortalUser portalUser = MapPortalUser(_portalUserRepository.GetPortalUserByUserName(userName));
             if (portalUser != null)
@@ -43,14 +43,18 @@ namespace KUP.Authentication.Business.Components.Implementation
                      new Claim("StudentID", portalUser.PortalUserId.ToString()),
                  });
 
-                    string token = _jwtTokenComponent.EncryptToken(claimsIdentity);
+                    authResult.LoginResult = AuthenticationResult.Successful.ToString();
+                    authResult.JWT_Token = _jwtTokenComponent.EncryptToken(claimsIdentity);
 
-                    result = AuthenticationResult.Successful;
+
+
                 }
+                else
+                    authResult.LoginResult = AuthenticationResult.LogonFailure.ToString();
 
             }
 
-            return result;
+            return authResult;
         }
 
         private string EncodePassword(string pass, PasswordFormat passwordFormat, string salt)

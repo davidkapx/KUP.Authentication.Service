@@ -1,4 +1,5 @@
-﻿using KUP.Authentication.Business.Models.Enums;
+﻿using KUP.Authentication.Business.Models;
+using KUP.Authentication.Business.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace KUP.Authentication.Business.Components.Definition
 {
     public interface IAuthenticationComponent
     {
-        AuthenticationResult Authenticate(string userName, string passWord);
+        AuthenticateResult Authenticate(string userName, string passWord);
     }
 }
