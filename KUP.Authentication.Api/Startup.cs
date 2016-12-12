@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using KUP.Authentication.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using KUP.Framework.Common.Security.JwtToken;
 
 namespace KUP.Authentication.Api
 {
@@ -48,6 +49,7 @@ namespace KUP.Authentication.Api
             });
 
             // Add framework services.
+            services.AddMemoryCache();
             services.AddCors();
             services.AddMvc();
             services.AddDbContext<UniversityPortal_KVUContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UniversityPortal_KVU_Database")));
@@ -74,6 +76,9 @@ namespace KUP.Authentication.Api
 
             var builder = new ContainerBuilder();
             builder.RegisterType<PortalUserRepository>().As<IPortalUserRepository>();
+            //JWTSettings jwtSettings = new JWTSettings("KUPortalPOC");
+            builder.RegisterType<JWTSettings>().As<IJWTSettings>();
+            builder.RegisterType<JwtTokenComponent>().As<IJwtTokenComponent>().InstancePerLifetimeScope();
             builder.RegisterType<AuthenticationComponent>().As<IAuthenticationComponent>();
 
             builder.Populate(services);

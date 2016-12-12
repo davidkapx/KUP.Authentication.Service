@@ -10,19 +10,23 @@ using System.Security.Cryptography;
 using KUP.Authentication.Business.Models.Enums;
 using KUP.Authentication.Business.Components.Security;
 using KUP.Authentication.Business.Models;
+using KUP.Framework.Common.Security.JwtToken;
+using System.Security.Claims;
 
 namespace KUP.Authentication.Business.Components.Implementation
 {
     public class AuthenticationComponent : BaseComponent, IAuthenticationComponent
     {
         private readonly IPortalUserRepository _portalUserRepository;
+        private readonly IJwtTokenComponent _jwtTokenComponent;
 
-        public AuthenticationComponent(IPortalUserRepository portalUserRepository)
+        public AuthenticationComponent(IPortalUserRepository portalUserRepository, IJwtTokenComponent jwtTokenComponent)
         {
             _portalUserRepository = portalUserRepository;
+            _jwtTokenComponent = jwtTokenComponent;
         }
 
-        public AuthenticationResult Authenticate (string userName, string passWord)
+        public AuthenticationResult Authenticate(string userName, string passWord)
         {
             AuthenticationResult result = AuthenticationResult.LogonFailure;
 
@@ -32,7 +36,17 @@ namespace KUP.Authentication.Business.Components.Implementation
                 string encodedPassword = EncodePassword(passWord, portalUser.PasswordFormat, portalUser.PasswordSalt);
 
                 if (string.Compare(portalUser.Password, encodedPassword, StringComparison.Ordinal) == 0)
+                {
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
+                 {
+                     new Claim("client_id", "KUP.Authentication.API"),
+                     new Claim("StudentID", portalUser.PortalUserId.ToString()),
+                 });
+
+                    string token = _jwtTokenComponent.EncryptToken(claimsIdentity);
+
                     result = AuthenticationResult.Successful;
+                }
 
             }
 
