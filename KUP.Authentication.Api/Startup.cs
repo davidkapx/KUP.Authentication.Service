@@ -77,8 +77,7 @@ namespace KUP.Authentication.Api
 
             var builder = new ContainerBuilder();
             builder.RegisterType<PortalUserRepository>().As<IPortalUserRepository>();
-            //JWTSettings jwtSettings = new JWTSettings("KUPortalPOC");
-            builder.RegisterType<JWTSettings>().As<IJWTSettings>();
+            builder.RegisterType<JWTSettingComponent>().As<IJWTSettingComponent>();
             builder.RegisterType<JwtTokenComponent>().As<IJwtTokenComponent>().InstancePerLifetimeScope();
             builder.RegisterType<AuthenticationComponent>().As<IAuthenticationComponent>();
 
