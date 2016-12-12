@@ -49,6 +49,7 @@ namespace KUP.Authentication.Api
             });
 
             // Add framework services.
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddMemoryCache();
             services.AddCors();
             services.AddMvc();
