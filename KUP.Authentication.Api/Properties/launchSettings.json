@@ -26,7 +26,10 @@
     },
     "Docker": {
       "launchBrowser": true,
-      "launchUrl": "http://localhost:{ServicePort}/swagger/ui"
+      "launchUrl": "http://localhost:5000/swagger/ui",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "dev"
+      }
     }
   }
 }
