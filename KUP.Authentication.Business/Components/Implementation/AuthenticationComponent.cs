@@ -37,11 +37,19 @@ namespace KUP.Authentication.Business.Components.Implementation
 
                 if (string.Compare(portalUser.Password, encodedPassword, StringComparison.Ordinal) == 0)
                 {
+                   
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
-                 {
+                    {
                      new Claim("client_id", "KUP.Authentication.API"),
                      new Claim("StudentID", portalUser.PortalUserId.ToString()),
-                 });
+                     new Claim("PrimaryCampusID", "43"),
+                     new Claim("CanActAsStudent","true"),
+                     new Claim("CanActAsInstructor","false"),
+                     new Claim("IsActingAsInstructor","false"),
+                     new Claim("IsActingAsStudent","true"),
+                     new Claim("IsImpersonator", "false"),
+
+                    });
 
                     authResult.LoginResult = AuthenticationResult.Successful.ToString();
                     authResult.JWT_Token = _jwtTokenComponent.EncryptToken(claimsIdentity);
