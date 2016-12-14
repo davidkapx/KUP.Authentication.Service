@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  kup.authentication.api:
+    image: authenticationservice${TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80"

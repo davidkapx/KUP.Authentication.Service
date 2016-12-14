@@ -17,12 +17,10 @@
     "Autofac.Extensions.DependencyInjection": "4.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0"
   },
-
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final"
   },
-
- "frameworks": {
+  "frameworks": {
     "netcoreapp1.1": {
       "dependencies": {
         "Microsoft.NETCore.App": {
@@ -33,29 +31,31 @@
       "imports": "dnxcore50"
     }
   },
-
   "buildOptions": {
     "emitEntryPoint": true,
     "preserveCompilationContext": true,
-    "xmlDoc": true
+    "xmlDoc": true,
+    "debugType": "portable"
   },
-
   "runtimeOptions": {
     "configProperties": {
       "System.GC.Server": true
     }
   },
-
   "publishOptions": {
     "include": [
       "wwwroot",
       "**/*.cshtml",
       "appsettings.json",
-      "web.config"
+      "web.config",
+      "docker-compose.yml",
+      "Dockerfile",
+      ".dockerignore"
     ]
   },
-
   "scripts": {
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+    "postpublish": [
+      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+    ]
   }
 }
