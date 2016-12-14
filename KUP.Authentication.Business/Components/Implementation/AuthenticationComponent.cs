@@ -31,6 +31,7 @@ namespace KUP.Authentication.Business.Components.Implementation
             AuthenticateResult authResult = new AuthenticateResult();
 
             PortalUser portalUser = MapPortalUser(_portalUserRepository.GetPortalUserByUserName(userName));
+            var portalUserMapping = _portalUserRepository.GetPortalUserStudentIDMapping(portalUser.PortalUserId);
             if (portalUser != null)
             {
                 string encodedPassword = EncodePassword(passWord, portalUser.PasswordFormat, portalUser.PasswordSalt);
@@ -41,8 +42,8 @@ namespace KUP.Authentication.Business.Components.Implementation
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
                     {
                      new Claim("client_id", "KUP.Authentication.API"),
-                     new Claim("StudentID", portalUser.PortalUserId.ToString()),
-                     new Claim("PrimaryCampusID", "43"),
+                     new Claim("StudentID", portalUserMapping.MappedId),
+                     new Claim("PrimaryCampusID", portalUserMapping.CampusId.ToString()),
                      new Claim("CanActAsStudent","true"),
                      new Claim("CanActAsInstructor","false"),
                      new Claim("IsActingAsInstructor","false"),

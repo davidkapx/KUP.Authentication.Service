@@ -37,5 +37,25 @@ namespace KUP.Authentication.Business.Components
                 Attributes = (from a in portalUser.PortalUserAttribute select new { a.Attribute, a.Value }).Distinct().ToDictionary(a => a.Attribute, a => a.Value)
             };
         }
+
+        protected PortalUserMapping MapPortalUserMapping(KUP.Authentication.Data.Models.PortalUserMapping portalUserMapping)
+        {
+            if (portalUserMapping == null)
+                return null;
+
+            return new PortalUserMapping()
+            {
+                CampusId = portalUserMapping.CampusId,
+                CreatedBy = portalUserMapping.CreatedBy,
+                CreatedDate = portalUserMapping.CreatedDate,
+                MappedId = portalUserMapping.MappedId,
+                PortalUserId = portalUserMapping.PortalUserId,
+                PortalUserMappingId = portalUserMapping.PortalUserMappingId,
+                UpdatedBy = portalUserMapping.UpdatedBy,
+                UpdatedDate = portalUserMapping.UpdatedDate,
+                UserMappingTypeId = portalUserMapping.UserMappingTypeId,
+                Ts = portalUserMapping.Ts
+            };
+        }
     }
 }

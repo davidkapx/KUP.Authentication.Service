@@ -19,11 +19,13 @@ using Microsoft.AspNetCore.Diagnostics;
 using KUP.Authentication.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using KUP.Framework.Common.Security.JwtToken;
+using KUP.Framework.Common.Configuration;
 
 namespace KUP.Authentication.Api
 {
     public class Startup
     {
+        private string appName;
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -32,6 +34,7 @@ namespace KUP.Authentication.Api
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            appName = Configuration["AppSettings:AppName"];
         }
 
         public IContainer ApplicationContainer { get; private set; }
@@ -53,7 +56,7 @@ namespace KUP.Authentication.Api
             services.AddMemoryCache();
             services.AddCors();
             services.AddMvc();
-            services.AddDbContext<UniversityPortal_KVUContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UniversityPortal_KVU_Database")));
+            services.AddDbContext<UniversityPortal_KVUContext>(options => options.UseSqlServer(GetConnectionString()));
             services.AddSwaggerGen();
 
             services.ConfigureSwaggerGen(options =>
@@ -136,6 +139,16 @@ namespace KUP.Authentication.Api
             var app = PlatformServices.Default.Application;
             return System.IO.Path.Combine(app.ApplicationBasePath, "KUP.Authentication.Api.xml");
         }
+
+        private string GetConnectionString()
+        {
+            var appSettings = new AppSettings(appName);
+            var connString = appSettings.GetSetting("UniversityPortal_KVU_ConnectionString");
+            var connPassword = appSettings.GetDecryptedSetting("UniversityPortal_KVU_ConnPassword");
+            connString = connString.Replace("Password=[]", "Password=" + connPassword);
+            return connString;
+        }
+
         #endregion
     }
 }

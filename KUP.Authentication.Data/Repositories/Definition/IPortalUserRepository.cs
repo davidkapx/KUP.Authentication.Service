@@ -9,5 +9,6 @@ namespace KUP.Authentication.Data.Repositories.Definition
     public interface IPortalUserRepository
     {
         PortalUser GetPortalUserByUserName(string userName);
+        PortalUserMapping GetPortalUserStudentIDMapping(int portalUserId);
     }
 }
