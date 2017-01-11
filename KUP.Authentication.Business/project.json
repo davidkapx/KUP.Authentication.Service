@@ -5,7 +5,7 @@
     "KUP.Authentication.Data": "1.0.0-*",
     "KUP.Framework.Common": "1.0.0-*",
     "NETStandard.Library": "1.6.1",
-    "System.IdentityModel.Tokens.Jwt": "5.1.0"
+    "System.IdentityModel.Tokens.Jwt": "5.1.2"
   },
 
   "frameworks": {
