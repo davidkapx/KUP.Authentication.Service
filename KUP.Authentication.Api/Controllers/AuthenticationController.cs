@@ -36,7 +36,7 @@ namespace KUP.Authentication.Api.Controllers
 
             try
             {
-                var result = _authenticationComponent.Authenticate(userCred.Username, userCred.Password);
+                var result = _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType);
                 return new ObjectResult(result);
             }
             catch (Business.Exceptions.BusinessException bexc)

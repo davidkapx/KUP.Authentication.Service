@@ -10,5 +10,6 @@ namespace KUP.Authentication.Data.Repositories.Definition
     {
         PortalUser GetPortalUserByUserName(string userName);
         PortalUserMapping GetPortalUserStudentIDMapping(int portalUserId);
+        PortalUserMapping GetPortalUserInstructorIDMapping(int portalUserId);
     }
 }

@@ -26,28 +26,61 @@ namespace KUP.Authentication.Business.Components.Implementation
             _jwtTokenComponent = jwtTokenComponent;
         }
 
-        public AuthenticateResult Authenticate(string userName, string passWord)
+        public AuthenticateResult Authenticate(string userName, string passWord, string userType)
         {
             AuthenticateResult authResult = new AuthenticateResult();
 
             PortalUser portalUser = MapPortalUser(_portalUserRepository.GetPortalUserByUserName(userName));
-            var portalUserMapping = _portalUserRepository.GetPortalUserStudentIDMapping(portalUser.PortalUserId);
+
             if (portalUser != null)
             {
                 string encodedPassword = EncodePassword(passWord, portalUser.PasswordFormat, portalUser.PasswordSalt);
+                var studentMapping = _portalUserRepository.GetPortalUserStudentIDMapping(portalUser.PortalUserId);
+                var instructorMapping = _portalUserRepository.GetPortalUserInstructorIDMapping(portalUser.PortalUserId);
+                Boolean canActAsInstructor = false;
+                int instructorId = 0;
+                int studentId = 0;
+                int campusId = 0;
+                Boolean isActingAsStudent = false;
+                Boolean isActingAsInstructor = false;
+                Boolean canActAsStudent = false;
 
                 if (string.Compare(portalUser.Password, encodedPassword, StringComparison.Ordinal) == 0)
                 {
-                   
+                    if (studentMapping != null)
+                    {
+                        studentId = int.Parse(studentMapping.MappedId);
+                        campusId = studentMapping.CampusId;
+                        canActAsStudent = true;
+                    }
+
+                    if (instructorMapping != null)
+                    {
+                        instructorId = int.Parse(instructorMapping.MappedId);
+                        canActAsInstructor = true;
+                    }
+
+                    switch (userType)
+                    {
+                        case "Student":
+                            isActingAsStudent = true;
+                            break;
+                        case "Faculty":
+                            isActingAsInstructor = true;
+                            break;
+
+                    }
+
+
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
                     {
                      new Claim("client_id", "KUP.Authentication.API"),
-                     new Claim("StudentID", portalUserMapping.MappedId),
-                     new Claim("PrimaryCampusID", portalUserMapping.CampusId.ToString()),
-                     new Claim("CanActAsStudent","true"),
-                     new Claim("CanActAsInstructor","false"),
-                     new Claim("IsActingAsInstructor","false"),
-                     new Claim("IsActingAsStudent","true"),
+                     new Claim("StudentID", studentId.ToString()),
+                     new Claim("PrimaryCampusID", campusId.ToString()),
+                     new Claim("CanActAsStudent",canActAsStudent.ToString()),
+                     new Claim("CanActAsInstructor",canActAsInstructor.ToString()),
+                     new Claim("IsActingAsInstructor",isActingAsInstructor.ToString()),
+                     new Claim("IsActingAsStudent",isActingAsStudent.ToString()),
                      new Claim("IsImpersonator", "false"),
 
                     });
