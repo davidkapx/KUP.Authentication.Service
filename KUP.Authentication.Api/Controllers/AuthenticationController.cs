@@ -29,14 +29,14 @@ namespace KUP.Authentication.Api.Controllers
         /// </summary>
         /// <param name="userCred"></param>
         [HttpPost("authenticate", Name = "AuthenticateUser")]
-        public IActionResult Post([FromBody] [ModelBinder]UserCredentials userCred)
+        public async Task<IActionResult> Post([FromBody] [ModelBinder]UserCredentials userCred)
         {
             if (userCred == null)
                 return BadRequest();
 
             try
             {
-                var result = _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType);
+                var result = await _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType);
                 return new ObjectResult(result);
             }
             catch (Business.Exceptions.BusinessException bexc)

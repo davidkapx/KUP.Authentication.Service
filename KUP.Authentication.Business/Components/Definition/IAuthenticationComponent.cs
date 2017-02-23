@@ -9,6 +9,6 @@ namespace KUP.Authentication.Business.Components.Definition
 {
     public interface IAuthenticationComponent
     {
-        AuthenticateResult Authenticate(string userName, string passWord, string userType);
+        Task<AuthenticateResult> Authenticate(string userName, string passWord, string userType);
     }
 }

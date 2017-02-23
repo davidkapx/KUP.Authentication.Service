@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace KUP.Authentication.Data.Repositories.Implementation
 {
@@ -15,19 +16,19 @@ namespace KUP.Authentication.Data.Repositories.Implementation
             _context = context;
         }
 
-        public PortalUser GetPortalUserByUserName(string userName)
+        public async Task<PortalUser> GetPortalUserByUserName(string userName)
         {
-            return _context.PortalUser.Where(pu => pu.Username == userName).SingleOrDefault();
+            return await _context.PortalUser.Where(pu => pu.Username == userName).SingleOrDefaultAsync();
         }
 
-        public PortalUserMapping GetPortalUserStudentIDMapping(int portalUserId)
+        public async Task<PortalUserMapping> GetPortalUserStudentIDMapping(int portalUserId)
         {
-            return _context.PortalUserMapping.Where(pum => pum.PortalUserId == portalUserId && pum.UserMappingTypeId == 1).FirstOrDefault();
+            return await _context.PortalUserMapping.Where(pum => pum.PortalUserId == portalUserId && pum.UserMappingTypeId == 1).FirstOrDefaultAsync();
         }
 
-        public PortalUserMapping GetPortalUserInstructorIDMapping(int portalUserId)
+        public async Task<PortalUserMapping> GetPortalUserInstructorIDMapping(int portalUserId)
         {
-            return _context.PortalUserMapping.Where(pum => pum.PortalUserId == portalUserId && pum.UserMappingTypeId == 2).FirstOrDefault();
+            return await _context.PortalUserMapping.Where(pum => pum.PortalUserId == portalUserId && pum.UserMappingTypeId == 2).FirstOrDefaultAsync();
         }
     }
 }

@@ -26,17 +26,17 @@ namespace KUP.Authentication.Business.Components.Implementation
             _jwtTokenComponent = jwtTokenComponent;
         }
 
-        public AuthenticateResult Authenticate(string userName, string passWord, string userType)
+        public async Task<AuthenticateResult> Authenticate(string userName, string passWord, string userType)
         {
             AuthenticateResult authResult = new AuthenticateResult();
 
-            PortalUser portalUser = MapPortalUser(_portalUserRepository.GetPortalUserByUserName(userName));
+            PortalUser portalUser = MapPortalUser(await _portalUserRepository.GetPortalUserByUserName(userName));
 
             if (portalUser != null)
             {
                 string encodedPassword = EncodePassword(passWord, portalUser.PasswordFormat, portalUser.PasswordSalt);
-                var studentMapping = _portalUserRepository.GetPortalUserStudentIDMapping(portalUser.PortalUserId);
-                var instructorMapping = _portalUserRepository.GetPortalUserInstructorIDMapping(portalUser.PortalUserId);
+                var studentMapping = await _portalUserRepository.GetPortalUserStudentIDMapping(portalUser.PortalUserId);
+                var instructorMapping = await _portalUserRepository.GetPortalUserInstructorIDMapping(portalUser.PortalUserId);
                 Boolean canActAsInstructor = false;
                 int instructorId = 0;
                 int studentId = 0;

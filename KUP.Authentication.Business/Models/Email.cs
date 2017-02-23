@@ -69,7 +69,7 @@ namespace KUP.Authentication.Business.Models
             get
             {
                 //TODO: Implement businessunit-specific behavior here...for now, we're hard-coding KHEC business rules because I have 40 minutes to fix this.
-                //if (this.EmailType.CaseInsensitiveTrimmedEquals(EMAILTYPE_PRIMARY))
+                if (this.EmailType.CaseInsensitiveTrimmedEquals(EMAILTYPE_PRIMARY))
                     return false;
 
                 return true;

@@ -8,8 +8,8 @@ namespace KUP.Authentication.Data.Repositories.Definition
 {
     public interface IPortalUserRepository
     {
-        PortalUser GetPortalUserByUserName(string userName);
-        PortalUserMapping GetPortalUserStudentIDMapping(int portalUserId);
-        PortalUserMapping GetPortalUserInstructorIDMapping(int portalUserId);
+        Task<PortalUser> GetPortalUserByUserName(string userName);
+        Task<PortalUserMapping> GetPortalUserStudentIDMapping(int portalUserId);
+        Task<PortalUserMapping> GetPortalUserInstructorIDMapping(int portalUserId);
     }
 }
