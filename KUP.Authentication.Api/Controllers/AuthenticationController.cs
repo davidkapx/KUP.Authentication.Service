@@ -25,7 +25,7 @@ namespace KUP.Authentication.Api.Controllers
         }
 
         /// <summary>
-        /// Authenticate a User
+        /// Authenticate a User [Student or Faculty]
         /// </summary>
         /// <param name="userCred"></param>
         [HttpPost("authenticate", Name = "AuthenticateUser")]

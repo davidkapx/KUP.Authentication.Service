@@ -2,9 +2,7 @@ version: '2'
 
 services:
   kup.authentication.api:
-    image: authenticationservice${TAG}
+    image: kup.authentication.api
     build:
-      context: .
+      context: ./KUP.Authentication.Api
       dockerfile: Dockerfile
-    ports:
-      - "5000"

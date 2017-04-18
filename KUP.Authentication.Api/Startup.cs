@@ -73,9 +73,9 @@ namespace KUP.Authentication.Api
 
                 //Determine base path for the application.
                 //var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var xmlPath = GetXmlCommentsPath();
+                //var xmlPath = GetXmlCommentsPath();
                 //Set the comments path for the swagger json and ui.
-                options.IncludeXmlComments(xmlPath);
+                //options.IncludeXmlComments(xmlPath);
             });
 
             var builder = new ContainerBuilder();
