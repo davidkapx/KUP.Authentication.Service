@@ -14,8 +14,12 @@ node('LinuxBuild') {
         if (branch == 'master'){
             branch = 'latest'
         }
-        def dockerRepository = "nexushub.kaplan.edu:18079"
-        def imageName = "kup.authentication.service"
+        // def dockerRepository = "nexushub.kaplan.edu:18079"
+        // def imageName = "kup.authentication.service"
+        // def imageTag = "${dockerRepository}/${imageName}:${branch}"
+
+        def dockerRepository = "kheportalpoc"
+        def imageName = "authenticationservice"
         def imageTag = "${dockerRepository}/${imageName}:${branch}"
 
         stage('Checkout'){
@@ -38,7 +42,8 @@ node('LinuxBuild') {
         }
         
         stage('Publish Image'){
-            sh "docker login ${dockerRepository} -u=dcruz -p=K@plan!Hub"
+            // sh "docker login ${dockerRepository} -u=dcruz -p=K@plan!Hub"
+            sh 'docker login -u=kheportalpoc -p=Kaplan123$'
             sh "docker push ${imageTag}"
         }
        notifySuccessful()
