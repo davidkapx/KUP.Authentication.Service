@@ -34,7 +34,7 @@ node('LinuxBuild') {
             }  
         }
         stage('Build Project'){
-            sh 'docker run -t --rm -v $(pwd):/app:rw -w /app/KUP.Authentication.Service microsoft/aspnetcore-build:1.1 bash -c \'dotnet restore && dotnet publish -c Release -o /app/out\''
+            sh 'docker run -t --rm -v $(pwd):/app:rw -w /app/KUP.Authentication.Service/KUP.Authentication.Api microsoft/aspnetcore-build:1.1 bash -c \'dotnet restore && dotnet publish -c Release -o /app/out\''
         }
         
         stage('Build Image'){
