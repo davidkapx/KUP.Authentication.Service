@@ -1,6 +1,6 @@
 FROM microsoft/aspnetcore:1.1
-ARG source
+ARG source=.
 WORKDIR /app
 EXPOSE 5000
-COPY ${source:-obj/Docker/publish} .
+COPY $source .
 ENTRYPOINT ["dotnet", "KUP.Authentication.Api.dll"]
