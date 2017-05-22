@@ -14,12 +14,8 @@ node('LinuxBuild') {
         if (branch == 'master'){
             branch = 'latest'
         }
-        // def dockerRepository = "nexushub.kaplan.edu:18079"
-        // def imageName = "kup.authentication.service"
-        // def imageTag = "${dockerRepository}/${imageName}:${branch}"
-
-        def dockerRepository = "kheportalpoc"
-        def imageName = "authenticationservice"
+        def dockerRepository = "nexushub.kaplan.edu:30904"
+        def imageName = "kup.authentication.service"
         def imageTag = "${dockerRepository}/${imageName}:${branch}"
 
         stage('Checkout'){
@@ -42,11 +38,13 @@ node('LinuxBuild') {
         }
         
         stage('Publish Image'){
-            // sh "docker login ${dockerRepository} -u=dcruz -p=K@plan!Hub"
-            sh 'docker login -u=kheportalpoc -p=Kaplan123$'
-            sh "docker push ${imageTag}"
+            withCredentials([
+                [$class: 'UsernamePasswordMultiBinding', credentialsId: 'kup-builds-nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                    sh 'docker login nexushub.kaplan.edu:30904 -u="$USERNAME" -p="$PASSWORD"'
+                    sh "docker push ${imageTag}"
+            }
         }
-       notifySuccessful()
+        notifySuccessful()
         
     } catch (e) {
         notifyFailed()
@@ -66,11 +64,16 @@ def notifyFailed() {
 }
 
 def notifySlack(color, message) {
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: 'kup-builds-slack',
+        variable: 'KUP_SLACK_TOKEN']
+    ],
+    body)
     slackSend (
         color: color, 
         message: message,
         channel: "#sf-kup-builds", 
         teamDomain: "kaplanhighereducation",
-        token: "HClvKokMZfjNv0CicXlyTpSU"
+        token: env.KUP_SLACK_TOKEN
     )
 }
