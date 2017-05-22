@@ -52,28 +52,27 @@ node('LinuxBuild') {
 }
 
 def notifyStarted() {
-    notifySlack('#FFFF00', "Build Started: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    notifySlack('warning', "Build Started: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 def notifySuccessful() {
-    notifySlack('#00FF00', "Build Successful: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    notifySlack('good', "Build Successful: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 def notifyFailed() {
-    notifySlack('#FF0000', "Build Failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    notifySlack('danger', "Build Failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 def notifySlack(color, message) {
     withCredentials([
         [$class: 'StringBinding', credentialsId: 'kup-builds-slack',
-        variable: 'KUP_SLACK_TOKEN']
-    ],
-    body)
-    slackSend (
-        color: color, 
-        message: message,
-        channel: "#sf-kup-builds", 
-        teamDomain: "kaplanhighereducation",
-        token: env.KUP_SLACK_TOKEN
-    )
+        variable: 'KUP_SLACK_TOKEN']]) {
+            slackSend (
+                color: color, 
+                message: message,
+                channel: "#sf-kup-builds", 
+                teamDomain: "kaplanhighereducation",
+                token: env.KUP_SLACK_TOKEN
+            )
+    }
 }
