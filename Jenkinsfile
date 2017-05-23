@@ -14,12 +14,8 @@ node('LinuxBuild') {
         if (branch == 'master'){
             branch = 'latest'
         }
-        // def dockerRepository = "nexushub.kaplan.edu:18079"
-        // def imageName = "kup.authentication.service"
-        // def imageTag = "${dockerRepository}/${imageName}:${branch}"
-
-        def dockerRepository = "kheportalpoc"
-        def imageName = "authenticationservice"
+        def dockerRepository = "nexushub.kaplan.edu:30904"
+        def imageName = "kup.authentication.service"
         def imageTag = "${dockerRepository}/${imageName}:${branch}"
 
         stage('Checkout'){
@@ -42,11 +38,13 @@ node('LinuxBuild') {
         }
         
         stage('Publish Image'){
-            // sh "docker login ${dockerRepository} -u=dcruz -p=K@plan!Hub"
-            sh 'docker login -u=kheportalpoc -p=Kaplan123$'
-            sh "docker push ${imageTag}"
+            withCredentials([
+                [$class: 'UsernamePasswordMultiBinding', credentialsId: 'kup-builds-nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                    sh 'docker login nexushub.kaplan.edu:30904 -u="$USERNAME" -p="$PASSWORD"'
+                    sh "docker push ${imageTag}"
+            }
         }
-       notifySuccessful()
+        notifySuccessful()
         
     } catch (e) {
         notifyFailed()
@@ -54,23 +52,27 @@ node('LinuxBuild') {
 }
 
 def notifyStarted() {
-    notifySlack('#FFFF00', "Build Started: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    notifySlack('warning', "Build Started: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 def notifySuccessful() {
-    notifySlack('#00FF00', "Build Successful: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    notifySlack('good', "Build Successful: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 def notifyFailed() {
-    notifySlack('#FF0000', "Build Failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+    notifySlack('danger', "Build Failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 def notifySlack(color, message) {
-    slackSend (
-        color: color, 
-        message: message,
-        channel: "#sf-kup-builds", 
-        teamDomain: "kaplanhighereducation",
-        token: "HClvKokMZfjNv0CicXlyTpSU"
-    )
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: 'kup-builds-slack',
+        variable: 'KUP_SLACK_TOKEN']]) {
+            slackSend (
+                color: color, 
+                message: message,
+                channel: "#sf-kup-builds", 
+                teamDomain: "kaplanhighereducation",
+                token: env.KUP_SLACK_TOKEN
+            )
+    }
 }
