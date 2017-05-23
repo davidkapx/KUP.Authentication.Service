@@ -26,7 +26,7 @@ namespace KUP.Authentication.Business.Components.Implementation
             _jwtTokenComponent = jwtTokenComponent;
         }
 
-        public async Task<AuthenticateResult> Authenticate(string userName, string passWord, string userType)
+        public async Task<AuthenticateResult> Authenticate(string userName, string passWord, string userType, string remoteIpAddress)
         {
             AuthenticateResult authResult = new AuthenticateResult();
 
@@ -82,6 +82,7 @@ namespace KUP.Authentication.Business.Components.Implementation
                      new Claim("IsActingAsInstructor",isActingAsInstructor.ToString()),
                      new Claim("IsActingAsStudent",isActingAsStudent.ToString()),
                      new Claim("IsImpersonator", "false"),
+                     new Claim("RequesterIP", remoteIpAddress)
 
                     });
 

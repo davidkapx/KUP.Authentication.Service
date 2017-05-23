@@ -36,7 +36,8 @@ namespace KUP.Authentication.Api.Controllers
 
             try
             {
-                var result = await _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType);
+                var remoteIpAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                var result = await _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType, remoteIpAddress);
                 return new ObjectResult(result);
             }
             catch (Business.Exceptions.BusinessException bexc)
