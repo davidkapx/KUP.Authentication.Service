@@ -82,7 +82,7 @@ namespace KUP.Authentication.Business.Components.Implementation
                      new Claim("IsActingAsInstructor",isActingAsInstructor.ToString()),
                      new Claim("IsActingAsStudent",isActingAsStudent.ToString()),
                      new Claim("IsImpersonator", "false"),
-                     new Claim("RequesterIP", remoteIpAddress)
+                     new Claim("cip", remoteIpAddress)
 
                     });
 
