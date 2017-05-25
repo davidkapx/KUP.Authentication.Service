@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KUP.Authentication.Business.Components.Definition;
 using KUP.Authentication.Business.Models;
+using Microsoft.Extensions.Primitives;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -37,6 +38,14 @@ namespace KUP.Authentication.Api.Controllers
             try
             {
                 var remoteIpAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                StringValues xForwardedForValues;
+                HttpContext.Request.Headers.TryGetValue("X-Forwarded-For", out xForwardedForValues);
+
+                if (!StringValues.IsNullOrEmpty(xForwardedForValues))
+                {
+                    var xForwardedFor = xForwardedForValues.ToString();
+                    remoteIpAddress = "xForwardfor: " + xForwardedFor;
+                }
                 var result = await _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType, remoteIpAddress);
                 return new ObjectResult(result);
             }
@@ -45,6 +54,25 @@ namespace KUP.Authentication.Api.Controllers
                 return BadRequest(bexc.Message);
             }
         }
+
+        //private string GetRemoteIPaddress()
+        //{
+        //    HttpContext.Request.
+
+        //    string ipAddress = HttpContext.Request.HttpContext.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+        //    if (!string.IsNullOrEmpty(ipAddress))
+        //    {
+        //        string[] addresses = ipAddress.Split(',');
+        //        if (addresses.Length != 0)
+        //        {
+        //            return addresses[0];
+        //        }
+        //    }
+
+        //    return context.Request.ServerVariables["REMOTE_ADDR"];
+
+        //}
 
     }
 }

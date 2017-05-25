@@ -20,6 +20,7 @@ using KUP.Authentication.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using KUP.Framework.Common.Security.JwtToken;
 using KUP.Framework.Common.Configuration;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace KUP.Authentication.Api
 {
@@ -125,6 +126,12 @@ namespace KUP.Authentication.Api
                         }.ToString(), Encoding.UTF8);
                     }
                 });
+            });
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+            ForwardedHeaders.XForwardedProto
             });
 
 

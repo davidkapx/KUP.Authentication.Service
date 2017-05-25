@@ -127,5 +127,8 @@ namespace KUP.Authentication.Business.Components.Implementation
 
             return Convert.ToBase64String(hash);
         }
+
+
+       
     }
 }
