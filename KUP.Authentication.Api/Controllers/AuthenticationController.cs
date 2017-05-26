@@ -43,28 +43,20 @@ namespace KUP.Authentication.Api.Controllers
 
                 if (!StringValues.IsNullOrEmpty(xForwardedForValues))
                 {
-                    var xForwardedFor = xForwardedForValues.ToString();
-                    remoteIpAddress += " - xForwardfor: " + xForwardedFor;
+                    var xForwardedFor = xForwardedForValues.FirstOrDefault();
+                    remoteIpAddress = xForwardedFor;
                 }
 
-                StringValues xForwardedProtoValues;
-                HttpContext.Request.Headers.TryGetValue("X-Forwarded-Proto", out xForwardedProtoValues);
+                
+                //StringValues xRealIpValues;
 
-                if (!StringValues.IsNullOrEmpty(xForwardedProtoValues))
-                {
-                    var xForwardedProto = xForwardedProtoValues.ToString();
-                    remoteIpAddress += " - xForwardedProto: " + xForwardedProto;
-                }
+                //HttpContext.Request.Headers.TryGetValue("X-Real-IP", out xRealIpValues);
 
-                StringValues xRealIpValues;
-
-                HttpContext.Request.Headers.TryGetValue("X-Real-IP", out xRealIpValues);
-
-                if (!StringValues.IsNullOrEmpty(xRealIpValues))
-                {
-                    var xRealIp = xRealIpValues.ToString();
-                    remoteIpAddress += " - xRealIp: " + xRealIp;
-                }
+                //if (!StringValues.IsNullOrEmpty(xRealIpValues))
+                //{
+                //    var xRealIp = xRealIpValues.ToString();
+                //    remoteIpAddress += " - xRealIp: " + xRealIp;
+                //}
 
                 var result = await _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType, remoteIpAddress);
                 return new ObjectResult(result);
@@ -74,25 +66,5 @@ namespace KUP.Authentication.Api.Controllers
                 return BadRequest(bexc.Message);
             }
         }
-
-        //private string GetRemoteIPaddress()
-        //{
-        //    HttpContext.Request.
-
-        //    string ipAddress = HttpContext.Request.HttpContext.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-
-        //    if (!string.IsNullOrEmpty(ipAddress))
-        //    {
-        //        string[] addresses = ipAddress.Split(',');
-        //        if (addresses.Length != 0)
-        //        {
-        //            return addresses[0];
-        //        }
-        //    }
-
-        //    return context.Request.ServerVariables["REMOTE_ADDR"];
-
-        //}
-
     }
 }
