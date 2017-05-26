@@ -41,22 +41,22 @@ namespace KUP.Authentication.Api.Controllers
                 StringValues xForwardedForValues;
                 HttpContext.Request.Headers.TryGetValue("X-Forwarded-For", out xForwardedForValues);
 
-                if (!StringValues.IsNullOrEmpty(xForwardedForValues))
-                {
-                    var xForwardedFor = xForwardedForValues.FirstOrDefault();
-                    remoteIpAddress = xForwardedFor;
-                }
-
-                
-                //StringValues xRealIpValues;
-
-                //HttpContext.Request.Headers.TryGetValue("X-Real-IP", out xRealIpValues);
-
-                //if (!StringValues.IsNullOrEmpty(xRealIpValues))
+                //if (!StringValues.IsNullOrEmpty(xForwardedForValues))
                 //{
-                //    var xRealIp = xRealIpValues.ToString();
-                //    remoteIpAddress += " - xRealIp: " + xRealIp;
+                //    var xForwardedFor = xForwardedForValues.FirstOrDefault();
+                //    remoteIpAddress = xForwardedFor;
                 //}
+
+
+                StringValues xRealIpValues;
+
+                HttpContext.Request.Headers.TryGetValue("X-Real-IP", out xRealIpValues);
+
+                if (!StringValues.IsNullOrEmpty(xRealIpValues))
+                {
+                    var xRealIp = xRealIpValues.ToString();
+                    remoteIpAddress = xRealIp;
+                }
 
                 var result = await _authenticationComponent.Authenticate(userCred.Username, userCred.Password, userCred.UserType, remoteIpAddress);
                 return new ObjectResult(result);
