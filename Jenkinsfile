@@ -14,7 +14,7 @@ node('LinuxBuild') {
         if (branch == 'master'){
             branch = 'latest'
         }
-        def dockerRepository = "nexushub.kaplan.edu:30904"
+        def dockerRepository = "nexushub.k8s.int.kaplan.edu:30904"
         def imageName = "kup.authentication.service"
         def imageTag = "${dockerRepository}/${imageName}:${branch}"
 
@@ -40,7 +40,7 @@ node('LinuxBuild') {
         stage('Publish Image'){
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'kup-builds-nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh 'docker login nexushub.kaplan.edu:30904 -u="$USERNAME" -p="$PASSWORD"'
+                    sh 'docker login nexushub.k8s.int.kaplan.edu:30904 -u="$USERNAME" -p="$PASSWORD"'
                     sh "docker push ${imageTag}"
             }
         }
