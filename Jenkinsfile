@@ -76,3 +76,31 @@ def notifySlack(color, message) {
             )
     }
 }
+
+node('windows') {
+    def branch = env.BRANCH_NAME
+    if (branch == 'master'){
+        stage('SonarQube Analysis') {
+            dir('KUP.Framework'){
+                git branch: 'master', url: 'https://kss-github.kaplan.com/rblaise/KUP.Framework.git', credentialsId: '73d98908-f7d7-42f6-80e7-b02171167482'
+            }
+            
+            dir('KUP.Authentication.Service'){
+                git branch: 'master', url: 'https://kss-github.kaplan.com/rblaise/KUP.Authentication.Service.git', credentialsId: '73d98908-f7d7-42f6-80e7-b02171167482'
+            }
+            
+            def sqScannerMsBuildHome = "\"%programfiles%\"\\sonar-scanner-msbuild"
+            withSonarQubeEnv('kaplan') {
+                dir('KUP.Authentication.Service'){
+                    withEnv(['MSBuildSDKsPath=C:\\Program Files\\dotnet\\sdk\\1.0.4\\Sdks']) {
+                        bat "${sqScannerMsBuildHome}\\SonarQube.Scanner.MSBuild.exe begin /k:kup.authentication.service /n:KUP.Authentication.Service /v:1.0 /d:sonar.host.url=%SONAR_HOST_URL% /d:sonar.login=%SONAR_AUTH_TOKEN%"
+                        bat "dotnet restore KUP.Authentication.Api"
+                        bat "del docker-compose.dcproj"
+                        bat "\"%MSBUILD15%\\MSBuild.exe\" KUP.Authentication.Service.sln /t:Rebuild"
+                        bat "${sqScannerMsBuildHome}\\SonarQube.Scanner.MSBuild.exe end"
+                    }
+                }
+            }   
+        }
+    }    
+}
