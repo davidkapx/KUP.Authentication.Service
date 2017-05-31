@@ -38,7 +38,7 @@ namespace KUP.Authentication.Business.Components.Implementation
                 var studentMapping = await _portalUserRepository.GetPortalUserStudentIDMapping(portalUser.PortalUserId);
                 var instructorMapping = await _portalUserRepository.GetPortalUserInstructorIDMapping(portalUser.PortalUserId);
                 Boolean canActAsInstructor = false;
-                int instructorId = 0;
+                //int instructorId = 0;
                 int studentId = 0;
                 int campusId = 0;
                 Boolean isActingAsStudent = false;
@@ -56,7 +56,7 @@ namespace KUP.Authentication.Business.Components.Implementation
 
                     if (instructorMapping != null)
                     {
-                        instructorId = int.Parse(instructorMapping.MappedId);
+                        //instructorId = int.Parse(instructorMapping.MappedId);
                         canActAsInstructor = true;
                     }
 
@@ -105,7 +105,8 @@ namespace KUP.Authentication.Business.Components.Implementation
             if (passwordFormat == PasswordFormat.Clear)
                 return pass;
 
-            byte[] bIn = Encoding.Unicode.GetBytes(pass), bSalt = Convert.FromBase64String(salt), hash = null;
+            byte[] bIn = Encoding.Unicode.GetBytes(pass), bSalt = Convert.FromBase64String(salt);
+            byte[] hash;
             byte[] bAll = new byte[bSalt.Length + bIn.Length];
 
             Buffer.BlockCopy(bSalt, 0, bAll, 0, bSalt.Length);

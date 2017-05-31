@@ -47,8 +47,8 @@ namespace KUP.Authentication.Business.Models
         /// <returns></returns>
         public static int SortEmailAddressesByType(Models.Email x, Models.Email y)
         {
-            string emailTypeX = x.EmailType.ToUpper();
-            string emailTypeY = y.EmailType.ToUpper();
+            string emailTypeX = x.EmailType.ToUpperInvariant();
+            string emailTypeY = y.EmailType.ToUpperInvariant();
 
             if (string.Compare(emailTypeX, emailTypeY, true) == 0)
                 return 0;
