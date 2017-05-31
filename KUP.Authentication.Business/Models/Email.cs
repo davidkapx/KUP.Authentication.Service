@@ -50,7 +50,7 @@ namespace KUP.Authentication.Business.Models
             string emailTypeX = x.EmailType.ToUpperInvariant();
             string emailTypeY = y.EmailType.ToUpperInvariant();
 
-            if (string.Compare(emailTypeX, emailTypeY, true) == 0)
+            if (string.Compare(emailTypeX, emailTypeY, StringComparison.Ordinal) == 0)
                 return 0;
 
             if (emailTypeX == EMAILTYPE_PRIMARY) return -1;
