@@ -38,7 +38,6 @@ namespace KUP.Authentication.Business.Components.Implementation
                 var studentMapping = await _portalUserRepository.GetPortalUserStudentIDMapping(portalUser.PortalUserId);
                 var instructorMapping = await _portalUserRepository.GetPortalUserInstructorIDMapping(portalUser.PortalUserId);
                 Boolean canActAsInstructor = false;
-                //int instructorId = 0;
                 int studentId = 0;
                 int campusId = 0;
                 Boolean isActingAsStudent = false;
@@ -56,7 +55,6 @@ namespace KUP.Authentication.Business.Components.Implementation
 
                     if (instructorMapping != null)
                     {
-                        //instructorId = int.Parse(instructorMapping.MappedId);
                         canActAsInstructor = true;
                     }
 
