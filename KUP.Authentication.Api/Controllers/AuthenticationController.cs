@@ -26,6 +26,15 @@ namespace KUP.Authentication.Api.Controllers
         }
 
         /// <summary>
+        /// Test Get Gethod
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("test", Name="Test Method")]
+        public IActionResult Get()
+        {
+            return new ObjectResult("Hello World");
+        }
+        /// <summary>
         /// Authenticate a User [Student or Faculty]
         /// </summary>
         /// <param name="userCred"></param>
