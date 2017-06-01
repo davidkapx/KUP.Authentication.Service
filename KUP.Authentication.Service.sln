@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KUP.Authentication.Business
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KUP.Authentication.Api", "KUP.Authentication.Api\KUP.Authentication.Api.csproj", "{2B710632-3203-47BB-AE36-6BD7563E0215}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KUP.Framework.Common", "..\KUP.Framework\KUP.Framework.Common\KUP.Framework.Common.csproj", "{B34C0DF2-53E6-418F-BC20-606EA71173CD}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1EDA8AC5-0D75-4B3D-AC89-F030B4C051B8}"
 EndProject
 Global
