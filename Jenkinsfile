@@ -19,22 +19,21 @@ node('LinuxBuild') {
         def imageTag = "${dockerRepository}/${imageName}:${branch}"
 
         stage('Checkout'){
-            step([$class: 'GitHubSetCommitStatusBuilder'])
-            
-            dir('KUP.Framework'){
-                git branch: 'master', url: 'https://kss-github.kaplan.com/rblaise/KUP.Framework.git', credentialsId: '73d98908-f7d7-42f6-80e7-b02171167482'
-            }
-            
-            dir('KUP.Authentication.Service'){
-                checkout scm
-            }  
+            checkout scm
         }
         stage('Build Project'){
-            sh 'docker run -t --rm -v $(pwd):/app:rw -w /app/KUP.Authentication.Service/KUP.Authentication.Api microsoft/aspnetcore-build:1.1 bash -c \'dotnet restore && dotnet publish -c Release -o /app/out\''
+            sh """
+                docker run -t --rm -v \$(pwd):/app:rw -w /app/KUP.Authentication.Api microsoft/aspnetcore-build:1.1 bash -c '\
+                    curl -O http://gt.symcb.com/gt.crt
+                    openssl x509 -inform DER -in gt.crt -out /usr/local/share/ca-certificates/gt.crt
+                    update-ca-certificates
+                    dotnet restore
+                    dotnet publish -c Release -o /app/out'
+            """
         }
         
         stage('Build Image'){
-            sh "docker build -t ${imageTag} -f KUP.Authentication.Service/KUP.Authentication.Api/Dockerfile --build-arg source=out ."
+            sh "docker build -t ${imageTag} -f KUP.Authentication.Api/Dockerfile --build-arg source=out ."
         }
         
         stage('Publish Image'){
