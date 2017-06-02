@@ -1,6 +1,4 @@
 # KUP.Authentication.Service
 
-[![Build Status](https://jenkins.ci.kaplan.com/buildStatus/icon?job=kup-student-service/latest)](https://jenkins.ci.kaplan.com/job/kup-student-service/job/latest/)
+[![Build Status](https://jenkins.ci.kaplan.com/buildStatus/icon?job=kup-auth-service/master)](https://jenkins.ci.kaplan.com/job/kup-auth-service/job/master/)
 
-Slack Notifications
-comments here
