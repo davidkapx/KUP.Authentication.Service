@@ -17,9 +17,9 @@ config.projectKey = "kup.authentication.service"
 config.projectName = "KUP.Authentication.Service"
 
 // build stages
-slackSend (color: 'warning', message: slackMessage("Build Started"), channel: "#sf-kup-builds")
-dockerBuild(config)
-slackSend (color: 'good', message: slackMessage("Build Successful"), channel: "#sf-kup-builds")
+// slackSend (color: 'warning', message: slackMessage("Build Started"), channel: "#sf-kup-builds")
+// dockerBuild(config)
+// slackSend (color: 'good', message: slackMessage("Build Successful"), channel: "#sf-kup-builds")
 
 // code quality (sonar scanner) stages
 slackSend (color: 'warning', message: slackMessage("SonarScanner Started"), channel: "#sf-kup-builds")
