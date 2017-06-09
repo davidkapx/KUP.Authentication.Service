@@ -21,8 +21,6 @@ namespace KUP.Authentication.Business.Components.Security
             byte[] salt = Encoding.ASCII.GetBytes(INIT_VECTOR.Length.ToString());
             Rfc2898DeriveBytes secretKey = new Rfc2898DeriveBytes(INIT_VECTOR, salt);
 
-            
-            //ICryptoTransform encryptor = rijCipher.CreateEncryptor(secretKey.GetBytes(32), secretKey.GetBytes(16));
             ICryptoTransform encryptor = aes.CreateEncryptor(secretKey.GetBytes(32), secretKey.GetBytes(16));
             MemoryStream memStream = new MemoryStream();
             CryptoStream cryptoStream = new CryptoStream(memStream, encryptor, CryptoStreamMode.Write);
