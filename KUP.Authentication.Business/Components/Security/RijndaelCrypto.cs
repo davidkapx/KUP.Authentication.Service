@@ -9,7 +9,7 @@ using System.Text;
 
 namespace KUP.Authentication.Business.Components.Security
 {
-    public class RijndaelCrypto
+    public static class RijndaelCrypto
     {
         // this var has to be exactly 16 chars.
         private static readonly string INIT_VECTOR = "32A7033173D84351";
