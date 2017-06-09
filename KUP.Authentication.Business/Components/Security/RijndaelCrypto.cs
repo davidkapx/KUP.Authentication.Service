@@ -54,7 +54,6 @@ namespace KUP.Authentication.Business.Components.Security
             MemoryStream memStream = new MemoryStream(cipherText);
             CryptoStream cryptoStream = new CryptoStream(memStream, decryptor, CryptoStreamMode.Read);
             byte[] plainText = new byte[cipherText.Length];
-            int decryptedCount = cryptoStream.Read(plainText, 0, plainText.Length);
             memStream.Dispose();
             cryptoStream.Dispose();
             return plainText;
