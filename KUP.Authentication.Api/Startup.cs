@@ -68,7 +68,7 @@ namespace KUP.Authentication.Api
                     Title = "KUP Authentication Service",
                     Description = "Kaplan University Portal Authentication Service",
                     TermsOfService = "None",
-                    Contact = new Contact { Name = "Ralph Blaise", Email = "rblaise@kaplan.edu", Url = "http://twitter.com/topdawgevh" },
+                    Contact = new Contact { Name = "Ralph W. Blaise", Email = "rblaise@kaplan.edu", Url = "http://twitter.com/topdawgevh" },
                     License = new License { Name = "Use under LICX", Url = "http://url.com" }
                 });
 
