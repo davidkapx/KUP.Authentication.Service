@@ -13,8 +13,8 @@ config = [
     startupProject: "KUP.Authentication.Api",
     projectSln: "KUP.Authentication.Service.sln",
     // sonarqube configuration
-    projectKey: "kup.authentication.service"
-    projectName: "KUP.Authentication.Service"
+    projectKey: "kup.authentication.service",
+    projectName: "KUP.Authentication.Service",
     // slack notifications channel
     slackChannel: "#sf-kup-builds"
 ]
