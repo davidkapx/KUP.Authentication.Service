@@ -24,3 +24,5 @@ dockerBuild(config)
 
 // code quality (sonar scanner) stages
 sonarScan(config)
+
+// confirm it's working
