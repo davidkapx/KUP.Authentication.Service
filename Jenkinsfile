@@ -19,10 +19,14 @@ config = [
     slackChannel: "#sf-kup-builds"
 ]
 
+node ('LinuxBuild'){
+    sh 'env'
+}
+
 // build & publish docker image
-dockerBuild(config)
+// dockerBuild(config)
 
 // code quality (sonar scanner) stages
-sonarScan(config)
+// sonarScan(config)
 
 // confirm it's working

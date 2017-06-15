@@ -14,6 +14,8 @@ namespace KUP.Authentication.Api.Controllers
     [Route("api/[controller]")]
     public class AuthenticationController : Controller
     {
+        // this is very bad code.. 
+        int myInt;
 
         private readonly IAuthenticationComponent _authenticationComponent;
         /// <summary>
@@ -29,7 +31,7 @@ namespace KUP.Authentication.Api.Controllers
         /// Test Get Gethod
         /// </summary>
         /// <returns></returns>
-        [HttpGet("test", Name="Test Method")]
+        [HttpGet("test", Name = "Test Method")]
         public IActionResult Get()
         {
             return new ObjectResult("Hello World");
