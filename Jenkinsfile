@@ -40,6 +40,7 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
                             /d:sonar.host.url=%SONAR_HOST_URL% ^
                             /d:sonar.login=%SONAR_AUTH_TOKEN% ^
                             /d:sonar.analysis.mode=preview  ^
+                            /d:sonar.github.endpoint='https://kss-github.kaplan.com/api/v3'
                             /d:sonar.github.pullRequest=$prNum ^
                             /d:sonar.github.repository=Kaplan/KUP.Authentication.Service ^
                             /d:sonar.github.oauth=faaedfc158e41493194e7a28b5dfdf07a006ea79
