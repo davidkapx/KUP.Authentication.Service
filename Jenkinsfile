@@ -37,21 +37,22 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
                         withCredentials([
                             [$class: 'StringBinding', credentialsId: '7ef5be6e-2fd7-45c2-988c-2b6d6d3c46b7',
                             variable: 'OAUTH']]) {
-                        bat """
-                            \"%SONAR_SCANNER_MSBUILD%\"\\SonarQube.Scanner.MSBuild.exe begin ^
-                            /k:${config.projectKey} /n:${config.projectName} /v:1.0 ^
-                            /d:sonar.host.url=%SONAR_HOST_URL% ^
-                            /d:sonar.login=%SONAR_AUTH_TOKEN% ^
-                            /d:sonar.analysis.mode=preview  ^
-                            /d:sonar.github.endpoint='https://kss-github.kaplan.com/api/v3' ^
-                            /d:sonar.github.pullRequest=$prNum ^
-                            /d:sonar.github.repository=Kaplan/KUP.Authentication.Service ^
-                            /d:sonar.github.oauth=%OAUTH%
-                            """
-                        bat "dotnet restore ${config.projectSln}"
-                        bat "del docker-compose.dcproj"
-                        bat "\"%MSBUILD15%\\MSBuild.exe\" ${config.projectSln} /t:Rebuild"
-                        bat "\"%SONAR_SCANNER_MSBUILD%\"\\SonarQube.Scanner.MSBuild.exe end"
+                            bat """
+                                \"%SONAR_SCANNER_MSBUILD%\"\\SonarQube.Scanner.MSBuild.exe begin ^
+                                /k:${config.projectKey} /n:${config.projectName} /v:1.0 ^
+                                /d:sonar.host.url=%SONAR_HOST_URL% ^
+                                /d:sonar.login=%SONAR_AUTH_TOKEN% ^
+                                /d:sonar.analysis.mode=preview  ^
+                                /d:sonar.github.endpoint='https://kss-github.kaplan.com/api/v3' ^
+                                /d:sonar.github.pullRequest=$prNum ^
+                                /d:sonar.github.repository=Kaplan/KUP.Authentication.Service ^
+                                /d:sonar.github.oauth=%OAUTH%
+                                """
+                            bat "dotnet restore ${config.projectSln}"
+                            bat "del docker-compose.dcproj"
+                            bat "\"%MSBUILD15%\\MSBuild.exe\" ${config.projectSln} /t:Rebuild"
+                            bat "\"%SONAR_SCANNER_MSBUILD%\"\\SonarQube.Scanner.MSBuild.exe end"
+                        }
                     }
                 }   
             }
