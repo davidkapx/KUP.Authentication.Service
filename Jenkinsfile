@@ -41,7 +41,7 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
                             /d:sonar.login=%SONAR_AUTH_TOKEN% ^
                             /d:sonar.analysis.mode=preview  ^
                             /d:sonar.github.pullRequest=$prNum ^
-                            /d:sonar.github.repository=myOrganisation/myProject ^
+                            /d:sonar.github.repository=Kaplan/KUP.Authentication.Service ^
                             /d:sonar.github.oauth=faaedfc158e41493194e7a28b5dfdf07a006ea79
                             """
                         bat "dotnet restore ${config.projectSln}"
