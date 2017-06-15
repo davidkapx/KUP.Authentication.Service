@@ -27,7 +27,7 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
     node('windows'){
         checkout scm
 
-        def prNum = env.BRANCH_NAME.replace(/^PR-/, '')
+        def prNum = env.BRANCH_NAME.replace('PR-', '')
 
         slackSend (color: 'warning', message: slackMessage("SonarScanner Started"), channel: config.slackChannel)
         try {
