@@ -34,6 +34,9 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
             stage('Checking Code Quality') {
                 withSonarQubeEnv('kaplan') {
                     withEnv(['MSBuildSDKsPath=C:\\Program Files\\dotnet\\sdk\\1.0.4\\Sdks']) {
+                        withCredentials([
+                            [$class: 'StringBinding', credentialsId: '7ef5be6e-2fd7-45c2-988c-2b6d6d3c46b7',
+                            variable: 'OAUTH']]) {
                         bat """
                             \"%SONAR_SCANNER_MSBUILD%\"\\SonarQube.Scanner.MSBuild.exe begin ^
                             /k:${config.projectKey} /n:${config.projectName} /v:1.0 ^
@@ -43,7 +46,7 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
                             /d:sonar.github.endpoint='https://kss-github.kaplan.com/api/v3' ^
                             /d:sonar.github.pullRequest=$prNum ^
                             /d:sonar.github.repository=Kaplan/KUP.Authentication.Service ^
-                            /d:sonar.github.oauth=faaedfc158e41493194e7a28b5dfdf07a006ea79
+                            /d:sonar.github.oauth=%OAUTH%
                             """
                         bat "dotnet restore ${config.projectSln}"
                         bat "del docker-compose.dcproj"
