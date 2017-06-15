@@ -36,6 +36,7 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
                     withEnv(['MSBuildSDKsPath=C:\\Program Files\\dotnet\\sdk\\1.0.4\\Sdks']) {
                         bat """
                             \"%SONAR_SCANNER_MSBUILD%\"\\SonarQube.Scanner.MSBuild.exe begin ^
+                            /k:${config.projectKey} /n:${config.projectName} /v:1.0 ^
                             /d:sonar.host.url=%SONAR_HOST_URL% ^
                             /d:sonar.login=%SONAR_AUTH_TOKEN% ^
                             /d:sonar.analysis.mode=preview  ^
