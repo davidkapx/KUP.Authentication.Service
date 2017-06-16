@@ -35,7 +35,7 @@ if (env.BRANCH_NAME.startsWith('PR-')) {
                 withSonarQubeEnv('kaplan') {
                     withEnv(['MSBuildSDKsPath=C:\\Program Files\\dotnet\\sdk\\1.0.4\\Sdks']) {
                         withCredentials([
-                            [$class: 'StringBinding', credentialsId: '7ef5be6e-2fd7-45c2-988c-2b6d6d3c46b7',
+                            [$class: 'StringBinding', credentialsId: 'svc_khpe-Jenkins',
                             variable: 'OAUTH']]) {
                             bat """
                                 \"%SONAR_SCANNER_MSBUILD%\"\\SonarQube.Scanner.MSBuild.exe begin ^
