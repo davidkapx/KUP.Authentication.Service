@@ -18,7 +18,7 @@ namespace KUP.Authentication.Api.Controllers
         int myInt;
         // more bad code
         public void something() {
-            var somevar = null;
+            var somevar;
         }
 
         private readonly IAuthenticationComponent _authenticationComponent;
