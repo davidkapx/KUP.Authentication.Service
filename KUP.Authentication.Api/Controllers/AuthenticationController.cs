@@ -15,7 +15,7 @@ namespace KUP.Authentication.Api.Controllers
     public class AuthenticationController : Controller
     {
         // this is very bad code.. 
-        int myInt;
+        int myInt = 0;
         // more bad code
         public void something() {
             var somevar;
