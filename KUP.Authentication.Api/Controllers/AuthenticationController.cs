@@ -56,13 +56,6 @@ namespace KUP.Authentication.Api.Controllers
                 StringValues xForwardedForValues;
                 HttpContext.Request.Headers.TryGetValue("X-Forwarded-For", out xForwardedForValues);
 
-                //if (!StringValues.IsNullOrEmpty(xForwardedForValues))
-                //{
-                //    var xForwardedFor = xForwardedForValues.FirstOrDefault();
-                //    remoteIpAddress = xForwardedFor;
-                //}
-
-
                 StringValues xRealIpValues;
 
                 HttpContext.Request.Headers.TryGetValue("X-Real-IP", out xRealIpValues);
