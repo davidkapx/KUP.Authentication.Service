@@ -14,7 +14,10 @@ namespace KUP.Authentication.Api.Controllers
     [Route("api/[controller]")]
     public class AuthenticationController : Controller
     {
-
+        // this is very bad code.. 
+        int myInt = 0;
+        // more bad code
+        
         private readonly IAuthenticationComponent _authenticationComponent;
         /// <summary>
         /// Api Controller Constructor
@@ -29,7 +32,7 @@ namespace KUP.Authentication.Api.Controllers
         /// Test Get Gethod
         /// </summary>
         /// <returns></returns>
-        [HttpGet("test", Name="Test Method")]
+        [HttpGet("test", Name = "Test Method")]
         public IActionResult Get()
         {
             return new ObjectResult("Hello World");
@@ -49,13 +52,6 @@ namespace KUP.Authentication.Api.Controllers
                 var remoteIpAddress = HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 StringValues xForwardedForValues;
                 HttpContext.Request.Headers.TryGetValue("X-Forwarded-For", out xForwardedForValues);
-
-                //if (!StringValues.IsNullOrEmpty(xForwardedForValues))
-                //{
-                //    var xForwardedFor = xForwardedForValues.FirstOrDefault();
-                //    remoteIpAddress = xForwardedFor;
-                //}
-
 
                 StringValues xRealIpValues;
 
